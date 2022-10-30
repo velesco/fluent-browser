@@ -2,6 +2,11 @@
 
 Simple web browser made with ElectronJS, featuring a mica theme
 
+### Screenshots:
+
+![](https://raw.githubusercontent.com/ThePiGuy3141/electron-mica-browser/master/screenshots/light_google.png)
+![](https://raw.githubusercontent.com/ThePiGuy3141/electron-mica-browser/master/screenshots/dark_google.png)
+
 ### How to run:
 
 Clone repo
