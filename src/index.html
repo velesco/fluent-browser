@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Hello World!</title>
+
+		<link rel="stylesheet" href="style.css" />
+		<script src="https://kit.fontawesome.com/944eb371a4.js"></script>
+	</head>
+	<body>
+		<header id="titlebar">
+			<div id="drag-region">
+				<div id="window-controls">
+					<div class="button" id="min-button">
+						<img
+							class="icon"
+							srcset="
+								titlebar-icons/min-w-10.png 1x,
+								titlebar-icons/min-w-12.png 1.25x,
+								titlebar-icons/min-w-15.png 1.5x,
+								titlebar-icons/min-w-15.png 1.75x,
+								titlebar-icons/min-w-20.png 2x,
+								titlebar-icons/min-w-20.png 2.25x,
+								titlebar-icons/min-w-24.png 2.5x,
+								titlebar-icons/min-w-30.png 3x,
+								titlebar-icons/min-w-30.png 3.5x
+							"
+							draggable="false"
+						/>
+					</div>
+					<div class="button" id="max-button">
+						<img
+							class="icon"
+							srcset="
+								titlebar-icons/max-w-10.png 1x,
+								titlebar-icons/max-w-12.png 1.25x,
+								titlebar-icons/max-w-15.png 1.5x,
+								titlebar-icons/max-w-15.png 1.75x,
+								titlebar-icons/max-w-20.png 2x,
+								titlebar-icons/max-w-20.png 2.25x,
+								titlebar-icons/max-w-24.png 2.5x,
+								titlebar-icons/max-w-30.png 3x,
+								titlebar-icons/max-w-30.png 3.5x
+							"
+							draggable="false"
+						/>
+					</div>
+					<div class="button" id="restore-button">
+						<img
+							class="icon"
+							srcset="
+								titlebar-icons/restore-w-10.png 1x,
+								titlebar-icons/restore-w-12.png 1.25x,
+								titlebar-icons/restore-w-15.png 1.5x,
+								titlebar-icons/restore-w-15.png 1.75x,
+								titlebar-icons/restore-w-20.png 2x,
+								titlebar-icons/restore-w-20.png 2.25x,
+								titlebar-icons/restore-w-24.png 2.5x,
+								titlebar-icons/restore-w-30.png 3x,
+								titlebar-icons/restore-w-30.png 3.5x
+							"
+							draggable="false"
+						/>
+					</div>
+					<div class="button" id="close-button">
+						<img
+							class="icon"
+							srcset="
+								titlebar-icons/close-w-10.png 1x,
+								titlebar-icons/close-w-12.png 1.25x,
+								titlebar-icons/close-w-15.png 1.5x,
+								titlebar-icons/close-w-15.png 1.75x,
+								titlebar-icons/close-w-20.png 2x,
+								titlebar-icons/close-w-20.png 2.25x,
+								titlebar-icons/close-w-24.png 2.5x,
+								titlebar-icons/close-w-30.png 3x,
+								titlebar-icons/close-w-30.png 3.5x
+							"
+							draggable="false"
+						/>
+					</div>
+				</div>
+			</div>
+			<div id="window-title">
+				<div class="tab">
+					<div style="display: flex; flex-direction: row; align-items: center; justify-items: flex-start; overflow: hidden">
+						<img src="" id="favicon" width="16" height="16" style="margin-right: 10px" />
+						<p id="tab1-title" class="tab-title">Home</p>
+					</div>
+					<button class="control-buttons" onclick="this.parentElement.remove()">
+						<i class="fa-regular fa-xmark"></i>
+					</button>
+				</div>
+				<button class="control-buttons" id="newtab-button">
+					<i class="fa-regular fa-plus"></i>
+				</button>
+			</div>
+			<div id="controls">
+				<button class="control-buttons" id="back-button" disabled>
+					<i class="fa-regular fa-chevron-left"></i>
+				</button>
+				<button class="control-buttons" id="forward-button" disabled>
+					<i class="fa-regular fa-chevron-right"></i>
+				</button>
+				<button class="control-buttons" id="reload-button">
+					<i class="fa-regular fa-rotate-right"></i>
+				</button>
+				<form class="url">
+					<input id="url-input" class="url-bar" type="text" onclick="this.select();" placeholder="Enter search or web address..." />
+					<button type="submit" disabled style="display: none"></button>
+					<button type="reset">
+						<i class="fa-regular fa-xmark"></i>
+					</button>
+				</form>
+				<button class="control-buttons" id="menu-button">
+					<i class="fa-regular fa-list-ul"></i>
+				</button>
+			</div>
+		</header>
+
+		<div id="main">
+			<webview class="webview" id="tab1" src="https://www.google.com"></webview>
+		</div>
+
+		<script src="./renderer.js"></script>
+	</body>
+</html>
