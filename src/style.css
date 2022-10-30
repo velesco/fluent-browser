@@ -209,7 +209,7 @@ body {
 }
 
 .tab {
-	background: #88888822;
+	background: #88888811;
 	border-radius: 5px;
 	padding: 1px 1px 1px 10px;
 	min-width: 0px;
@@ -220,10 +220,16 @@ body {
 	align-items: center;
 	-webkit-app-region: no-drag;
 	margin: 0px 3px;
+	transition: 0.2s all;
 }
-.tab.active-tab,
 .tab:active {
 	background: #88888833;
+}
+.tab.active-tab {
+	background: #88888844;
+}
+.tab.active-tab:active {
+	background: #88888855;
 }
 .tab-title {
 	white-space: nowrap;

@@ -13,18 +13,17 @@ document.getElementById("close-button").addEventListener("click", () => {
 	ipcRenderer.send("close");
 });
 
-var tab1 = document.getElementById("tab1");
 document.getElementById("back-button").addEventListener("click", () => {
-	tab1.goBack();
+	document.querySelector(".webview.active-tab").goBack();
 });
 document.getElementById("forward-button").addEventListener("click", () => {
-	tab1.goForward();
+	document.querySelector(".webview.active-tab").goForward();
 });
 document.getElementById("reload-button").addEventListener("click", () => {
-	if (tab1.isLoading()) {
-		tab1.stop();
+	if (document.querySelector(".webview.active-tab").isLoading()) {
+		document.querySelector(".webview.active-tab").stop();
 	} else {
-		tab1.reload();
+		document.querySelector(".webview.active-tab").reload();
 	}
 });
 
@@ -149,6 +148,29 @@ function createNewTab() {
 			tab.classList.remove("active-tab");
 		});
 		newtab_view.classList.add("active-tab");
+
+		document.getElementById("url-input").value = newtab_view.getURL();
+
+		if (newtab_view.isLoading()) {
+			document.getElementById("reload-button").innerHTML = `
+			<i class="fa-regular fa-xmark-large"></i>
+			`;
+		} else {
+			document.getElementById("reload-button").innerHTML = `
+			<i class="fa-regular fa-rotate-right"></i>
+			`;
+		}
+
+		if (newtab_view.canGoBack()) {
+			document.getElementById("back-button").removeAttribute("disabled");
+		} else {
+			document.getElementById("back-button").setAttribute("disabled", "");
+		}
+		if (newtab_view.canGoForward()) {
+			document.getElementById("forward-button").removeAttribute("disabled");
+		} else {
+			document.getElementById("forward-button").setAttribute("disabled", "");
+		}
 	});
 
 	newtab_handle.click();
@@ -206,12 +228,14 @@ function createNewTab() {
 
 	document.getElementById("tabclose" + tabID).addEventListener("click", () => {
 		document.getElementById("tab" + tabID).remove();
+		ipcRenderer.send("tab-close");
 		document.getElementById("tabHandle" + tabID).remove();
 	});
 
 	currentTabID++;
 }
 
+createNewTab();
 document.getElementById("newtab-button").addEventListener("click", () => {
 	createNewTab();
 });

@@ -54,4 +54,14 @@ app.on("ready", () => {
 	}
 	win.on("maximize", toggleMaxRestoreButtons);
 	win.on("unmaximize", toggleMaxRestoreButtons);
+
+	ipcMain.on("tab-close", () => {
+		win.webContents.executeJavaScript(`
+		try {
+			document.getElementById("window-title").lastElementChild.click();
+		} catch {
+			createNewTab()
+		}
+		`);
+	});
 });
