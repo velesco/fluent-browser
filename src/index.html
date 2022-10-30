@@ -81,15 +81,17 @@
 					</div>
 				</div>
 			</div>
-			<div id="window-title">
-				<div class="tab">
-					<div style="display: flex; flex-direction: row; align-items: center; justify-items: flex-start; overflow: hidden">
-						<img src="" id="favicon" width="16" height="16" style="margin-right: 10px" />
-						<p id="tab1-title" class="tab-title">Home</p>
+			<div style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; margin-top: 10px">
+				<div id="window-title">
+					<div class="tab">
+						<div style="display: flex; flex-direction: row; align-items: center; justify-items: flex-start; overflow: hidden">
+							<img src="" id="favicon" width="16" height="16" style="margin-right: 10px" />
+							<p id="tab1-title" class="tab-title">Home</p>
+						</div>
+						<button class="control-buttons" onclick="this.parentElement.remove()">
+							<i class="fa-regular fa-xmark"></i>
+						</button>
 					</div>
-					<button class="control-buttons" onclick="this.parentElement.remove()">
-						<i class="fa-regular fa-xmark"></i>
-					</button>
 				</div>
 				<button class="control-buttons" id="newtab-button">
 					<i class="fa-regular fa-plus"></i>

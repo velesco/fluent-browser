@@ -106,10 +106,10 @@ body {
 	overflow: hidden;
 	font-family: "Segoe UI", sans-serif;
 	font-size: 12px;
-	margin-top: 10px;
 	margin-left: 8px;
-	margin-right: 132px;
 	-webkit-app-region: drag;
+	max-width: calc(100vw - 180px);
+	flex-shrink: 1;
 }
 
 .maximized #window-title {
@@ -206,6 +206,7 @@ body {
 	background: #88888822;
 	border-radius: 5px;
 	padding: 1px 1px 1px 10px;
+	min-width: 0px;
 	max-width: 200px;
 	width: 30vw;
 	display: flex;
