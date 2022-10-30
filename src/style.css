@@ -96,6 +96,7 @@ body {
 	position: fixed;
 	top: 0;
 	right: 0;
+	pointer-events: none;
 }
 
 #window-title {
@@ -127,6 +128,7 @@ body {
 
 #window-controls {
 	-webkit-app-region: no-drag;
+	pointer-events: all;
 }
 
 #window-controls .button {
@@ -197,7 +199,11 @@ body {
 	display: none;
 }
 
-#tab1 {
+.webview {
+	display: none;
+}
+.webview.active-tab {
+	display: flex;
 	width: -webkit-fill-available;
 	height: -webkit-fill-available;
 }
@@ -214,6 +220,10 @@ body {
 	align-items: center;
 	-webkit-app-region: no-drag;
 	margin: 0px 3px;
+}
+.tab.active-tab,
+.tab:active {
+	background: #88888833;
 }
 .tab-title {
 	white-space: nowrap;

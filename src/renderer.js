@@ -30,38 +30,38 @@ document.getElementById("reload-button").addEventListener("click", () => {
 
 var favicon = "";
 
-tab1.addEventListener("did-frame-navigate", () => {
-	document.getElementById("tab1-title").innerText = tab1.getTitle();
-	document.getElementById("url-input").value = tab1.getURL();
-});
-tab1.addEventListener("did-frame-finish-load", () => {
-	document.getElementById("tab1-title").innerText = tab1.getTitle();
-});
+// tab1.addEventListener("did-frame-navigate", () => {
+// 	document.getElementById("tab1-title").innerText = tab1.getTitle();
+// 	document.getElementById("url-input").value = tab1.getURL();
+// });
+// tab1.addEventListener("did-frame-finish-load", () => {
+// 	document.getElementById("tab1-title").innerText = tab1.getTitle();
+// });
 
-tab1.addEventListener("did-start-loading", () => {
-	document.getElementById("favicon").setAttribute("src", "favicon/loading.gif");
-	document.getElementById("reload-button").innerHTML = `
-    <i class="fa-regular fa-xmark-large"></i>
-    `;
-});
-tab1.addEventListener("did-stop-loading", () => {
-	document.getElementById("favicon").setAttribute("src", favicon);
-	document.getElementById("reload-button").innerHTML = `
-    <i class="fa-regular fa-rotate-right"></i>
-    `;
-	if (tab1.canGoBack()) {
-		document.getElementById("back-button").removeAttribute("disabled");
-	} else {
-		document.getElementById("back-button").setAttribute("disabled", "");
-	}
-	if (tab1.canGoForward()) {
-		document.getElementById("forward-button").removeAttribute("disabled");
-	} else {
-		document.getElementById("forward-button").setAttribute("disabled", "");
-	}
-});
+// tab1.addEventListener("did-start-loading", () => {
+// 	document.getElementById("favicon").setAttribute("src", "favicon/loading.gif");
+// 	document.getElementById("reload-button").innerHTML = `
+//     <i class="fa-regular fa-xmark-large"></i>
+//     `;
+// });
+// tab1.addEventListener("did-stop-loading", () => {
+// 	document.getElementById("favicon").setAttribute("src", favicon);
+// 	document.getElementById("reload-button").innerHTML = `
+//     <i class="fa-regular fa-rotate-right"></i>
+//     `;
+// 	if (tab1.canGoBack()) {
+// 		document.getElementById("back-button").removeAttribute("disabled");
+// 	} else {
+// 		document.getElementById("back-button").setAttribute("disabled", "");
+// 	}
+// 	if (tab1.canGoForward()) {
+// 		document.getElementById("forward-button").removeAttribute("disabled");
+// 	} else {
+// 		document.getElementById("forward-button").setAttribute("disabled", "");
+// 	}
+// });
 
-async function checkFavicon(url) {
+async function checkFavicon(url, favicon) {
 	var valid = "";
 	var request = new XMLHttpRequest();
 	request.open("GET", url, true);
@@ -69,17 +69,17 @@ async function checkFavicon(url) {
 	request.onload = function () {
 		status = request.status;
 		if (request.status == 200) {
-			document.getElementById("favicon").setAttribute("src", url);
+			favicon.setAttribute("src", url);
 		} else {
-			document.getElementById("favicon").setAttribute("src", "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-globe-2.png&r=135&g=135&b=135");
+			favicon.setAttribute("src", "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-globe-2.png&r=135&g=135&b=135");
 		}
 	};
 	return valid;
 }
-tab1.addEventListener("page-favicon-updated", (e) => {
-	favicon = e.favicons[0];
-	checkFavicon(e.favicons[0]);
-});
+// tab1.addEventListener("page-favicon-updated", (e) => {
+// 	favicon = e.favicons[0];
+// 	checkFavicon(e.favicons[0]);
+// });
 
 const isValidUrl = (urlString) => {
 	var urlPattern = new RegExp(
@@ -93,32 +93,125 @@ const isValidUrl = (urlString) => {
 	); // validate fragment locator
 	return !!urlPattern.test(urlString);
 };
-document.getElementById("url-input").addEventListener("keypress", (e) => {
-	if (e.key === "Enter") {
-		e.preventDefault();
-		var url = document.getElementById("url-input").value;
-		url = url.replace(/https?:\/\//, "");
-		https_url = "https://" + url;
-		if (isValidUrl(https_url)) {
-			tab1.loadURL(https_url);
-		} else {
-			tab1.loadURL("https://www.google.com/search?q=" + url);
-		}
-		document.getElementById("url-input").blur();
-	}
-});
+// document.getElementById("url-input").addEventListener("keypress", (e) => {
+// 	if (e.key === "Enter") {
+// 		e.preventDefault();
+// 		var url = document.getElementById("url-input").value;
+// 		url = url.replace(/https?:\/\//, "");
+// 		https_url = "https://" + url;
+// 		if (isValidUrl(https_url)) {
+// 			tab1.loadURL(https_url);
+// 		} else {
+// 			tab1.loadURL("https://www.google.com/search?q=" + url);
+// 		}
+// 		document.getElementById("url-input").blur();
+// 	}
+// });
 
-document.getElementById("newtab-button").addEventListener("click", () => {
+var currentTabID = 0;
+
+function createNewTab() {
 	var newtab_handle = document.createElement("div");
-	document.getElementById("window-title").insertBefore(newtab_handle, document.getElementById("window-title").lastElementChild);
+	var tabID = currentTabID;
+	document.getElementById("window-title").appendChild(newtab_handle);
 	newtab_handle.classList.add("tab");
-	newtab_handle.innerHTML = `
+	newtab_handle.innerHTML =
+		`
 	<div style="display: flex; flex-direction: row; align-items: center; justify-items: flex-start; overflow: hidden">
-		<img src="" id="favicon" width="16" height="16" style="margin-right: 10px" />
-		<p id="tab1-title" class="tab-title">Home</p>
+		<img src="" id="favicon` +
+		tabID +
+		`" width="16" height="16" style="margin-right: 10px" />
+		<p id="tab` +
+		tabID +
+		`-title" class="tab-title">Home</p>
 	</div>
-	<button class="control-buttons" onclick="this.parentElement.remove()">
+	<button class="control-buttons" id="tabclose` +
+		tabID +
+		`">
 		<i class="fa-regular fa-xmark"></i>
 	</button>
-    `;
+	`;
+	newtab_handle.id = "tabHandle" + tabID;
+
+	var newtab_view = document.createElement("webview");
+	document.getElementById("main").appendChild(newtab_view);
+	newtab_view.classList.add("webview");
+	newtab_view.id = "tab" + tabID;
+	newtab_view.setAttribute("src", "https://www.google.com");
+
+	newtab_handle.addEventListener("click", () => {
+		Array.from(document.getElementsByClassName("tab")).forEach((tab) => {
+			tab.classList.remove("active-tab");
+		});
+		newtab_handle.classList.add("active-tab");
+
+		Array.from(document.getElementsByClassName("webview")).forEach((tab) => {
+			tab.classList.remove("active-tab");
+		});
+		newtab_view.classList.add("active-tab");
+	});
+
+	newtab_handle.click();
+
+	newtab_view.addEventListener("did-frame-navigate", () => {
+		document.getElementById("tab" + tabID + "-title").innerText = newtab_view.getTitle();
+		document.getElementById("url-input").value = newtab_view.getURL();
+	});
+	newtab_view.addEventListener("did-frame-finish-load", () => {
+		document.getElementById("tab" + tabID + "-title").innerText = newtab_view.getTitle();
+	});
+
+	newtab_view.addEventListener("did-start-loading", () => {
+		document.getElementById("favicon" + tabID).setAttribute("src", "favicon/loading.gif");
+		document.getElementById("reload-button").innerHTML = `
+		<i class="fa-regular fa-xmark-large"></i>
+		`;
+	});
+	newtab_view.addEventListener("did-stop-loading", () => {
+		document.getElementById("favicon" + tabID).setAttribute("src", favicon);
+		document.getElementById("reload-button").innerHTML = `
+		<i class="fa-regular fa-rotate-right"></i>
+		`;
+		if (newtab_view.canGoBack()) {
+			document.getElementById("back-button").removeAttribute("disabled");
+		} else {
+			document.getElementById("back-button").setAttribute("disabled", "");
+		}
+		if (newtab_view.canGoForward()) {
+			document.getElementById("forward-button").removeAttribute("disabled");
+		} else {
+			document.getElementById("forward-button").setAttribute("disabled", "");
+		}
+	});
+
+	newtab_view.addEventListener("page-favicon-updated", (e) => {
+		favicon = e.favicons[0];
+		checkFavicon(e.favicons[0], document.getElementById("favicon" + tabID));
+	});
+
+	document.getElementById("url-input").addEventListener("keypress", (e) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			var url = document.getElementById("url-input").value;
+			url = url.replace(/https?:\/\//, "");
+			https_url = "https://" + url;
+			if (isValidUrl(https_url)) {
+				document.querySelector(".webview.active-tab").loadURL(https_url);
+			} else {
+				document.querySelector(".webview.active-tab").loadURL("https://www.google.com/search?q=" + url);
+			}
+			document.getElementById("url-input").blur();
+		}
+	});
+
+	document.getElementById("tabclose" + tabID).addEventListener("click", () => {
+		document.getElementById("tab" + tabID).remove();
+		document.getElementById("tabHandle" + tabID).remove();
+	});
+
+	currentTabID++;
+}
+
+document.getElementById("newtab-button").addEventListener("click", () => {
+	createNewTab();
 });
