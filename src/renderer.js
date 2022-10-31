@@ -109,7 +109,7 @@ const isValidUrl = (urlString) => {
 
 var currentTabID = 0;
 
-function createNewTab() {
+function createNewTab(url) {
 	var newtab_handle = document.createElement("div");
 	var tabID = currentTabID;
 	document.getElementById("window-title").appendChild(newtab_handle);
@@ -136,7 +136,7 @@ function createNewTab() {
 	document.getElementById("main").appendChild(newtab_view);
 	newtab_view.classList.add("webview");
 	newtab_view.id = "tab" + tabID;
-	newtab_view.setAttribute("src", "https://www.google.com");
+	newtab_view.setAttribute("src", url ? url : "https://www.google.com");
 
 	newtab_handle.addEventListener("click", () => {
 		Array.from(document.getElementsByClassName("tab")).forEach((tab) => {
@@ -239,3 +239,11 @@ createNewTab();
 document.getElementById("newtab-button").addEventListener("click", () => {
 	createNewTab();
 });
+
+function toggleFullscreen() {
+	if (!document.fullscreenElement) {
+		document.getElementById("main").requestFullscreen();
+	} else {
+		document.exitFullscreen();
+	}
+}

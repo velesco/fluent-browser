@@ -11,6 +11,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"electron-context-menu": "^3.6.0",
 		"electron-rebuild": "^3.2.9",
 		"mica-electron": "^1.1.5"
 	},
