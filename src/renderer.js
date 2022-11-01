@@ -29,37 +29,6 @@ document.getElementById("reload-button").addEventListener("click", () => {
 
 var favicon = "";
 
-// tab1.addEventListener("did-frame-navigate", () => {
-// 	document.getElementById("tab1-title").innerText = tab1.getTitle();
-// 	document.getElementById("url-input").value = tab1.getURL();
-// });
-// tab1.addEventListener("did-frame-finish-load", () => {
-// 	document.getElementById("tab1-title").innerText = tab1.getTitle();
-// });
-
-// tab1.addEventListener("did-start-loading", () => {
-// 	document.getElementById("favicon").setAttribute("src", "favicon/loading.gif");
-// 	document.getElementById("reload-button").innerHTML = `
-//     <i class="fa-regular fa-xmark-large"></i>
-//     `;
-// });
-// tab1.addEventListener("did-stop-loading", () => {
-// 	document.getElementById("favicon").setAttribute("src", favicon);
-// 	document.getElementById("reload-button").innerHTML = `
-//     <i class="fa-regular fa-rotate-right"></i>
-//     `;
-// 	if (tab1.canGoBack()) {
-// 		document.getElementById("back-button").removeAttribute("disabled");
-// 	} else {
-// 		document.getElementById("back-button").setAttribute("disabled", "");
-// 	}
-// 	if (tab1.canGoForward()) {
-// 		document.getElementById("forward-button").removeAttribute("disabled");
-// 	} else {
-// 		document.getElementById("forward-button").setAttribute("disabled", "");
-// 	}
-// });
-
 async function checkFavicon(url, favicon) {
 	var valid = "";
 	var request = new XMLHttpRequest();
@@ -75,10 +44,6 @@ async function checkFavicon(url, favicon) {
 	};
 	return valid;
 }
-// tab1.addEventListener("page-favicon-updated", (e) => {
-// 	favicon = e.favicons[0];
-// 	checkFavicon(e.favicons[0]);
-// });
 
 const isValidUrl = (urlString) => {
 	var urlPattern = new RegExp(
@@ -92,20 +57,6 @@ const isValidUrl = (urlString) => {
 	); // validate fragment locator
 	return !!urlPattern.test(urlString);
 };
-// document.getElementById("url-input").addEventListener("keypress", (e) => {
-// 	if (e.key === "Enter") {
-// 		e.preventDefault();
-// 		var url = document.getElementById("url-input").value;
-// 		url = url.replace(/https?:\/\//, "");
-// 		https_url = "https://" + url;
-// 		if (isValidUrl(https_url)) {
-// 			tab1.loadURL(https_url);
-// 		} else {
-// 			tab1.loadURL("https://www.google.com/search?q=" + url);
-// 		}
-// 		document.getElementById("url-input").blur();
-// 	}
-// });
 
 var currentTabID = 0;
 
@@ -231,6 +182,19 @@ function createNewTab(url) {
 		ipcRenderer.send("tab-close");
 		document.getElementById("tabHandle" + tabID).remove();
 	});
+
+	newtab_view.addEventListener("new-window", (event) => {
+		event.preventDefault();
+		createNewTab(event.url);
+	});
+
+	document.addEventListener(
+		"mouseup",
+		function (event) {
+			console.log("mouse button clicked: ", event.which);
+		},
+		false
+	);
 
 	currentTabID++;
 }

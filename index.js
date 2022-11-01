@@ -1,4 +1,4 @@
-const { app, ipcMain, Menu, globalShortcut } = require("electron");
+const { app, ipcMain, globalShortcut } = require("electron");
 const { PARAMS, VALUE, MicaBrowserWindow } = require("mica-electron");
 const contextMenu = require("electron-context-menu");
 const path = require("path");
@@ -23,9 +23,6 @@ app.on("ready", () => {
 	});
 
 	win.removeMenu();
-	const menu = new Menu();
-
-	Menu.setApplicationMenu(menu);
 
 	// win.webContents.openDevTools();
 
