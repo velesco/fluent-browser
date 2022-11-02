@@ -130,7 +130,7 @@ button.shortcut.empty {
 	background: none;
 	outline: none;
 	border: none;
-	margin: 5px 15px;
+	margin: 5px;
 	border-radius: 20px;
 	user-select: all;
 	background: #88888877;
@@ -138,9 +138,16 @@ button.shortcut.empty {
 	overflow: hidden scroll;
 	position: relative;
 	max-height: calc(100vh / 2);
+	transition: all 0.2s;
 }
-#suggestions:has(#suggestions > div) {
-	display: none;
+#suggestion-container {
+	transition: all 0.2s;
+}
+form:has(input[type="text"]:placeholder-shown) ~ #suggestion-container,
+form:not(:has(input[type="text"]:focus)) ~ #suggestion-container {
+	opacity: 0;
+	transform: scaleY(0);
+	transform-origin: top center;
 }
 .suggestion-li {
 	overflow: hidden;

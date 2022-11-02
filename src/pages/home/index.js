@@ -15,11 +15,13 @@ async function getSuggestions(text) {
 		});
 	}
 }
-
-document.getElementById("url-input").addEventListener("keydown", (e) => {
+document.getElementById("url-input").addEventListener("keyup", (e) => {
 	getSuggestions(document.getElementById("url-input").value);
 	if (e.key === "Enter") {
 		e.preventDefault();
 		window.location.href = "https://www.google.com/search?q=" + document.getElementById("url-input").value;
 	}
+});
+document.getElementById("url-input").addEventListener("click", (e) => {
+	getSuggestions(document.getElementById("url-input").value);
 });
