@@ -1,4 +1,5 @@
 const { ipcRenderer } = require("electron");
+const path = require("path");
 
 document.getElementById("min-button").addEventListener("click", () => {
 	ipcRenderer.send("minimize");
@@ -58,6 +59,21 @@ const isValidUrl = (urlString) => {
 	return !!urlPattern.test(urlString);
 };
 
+document.getElementById("url-input").addEventListener("keypress", (e) => {
+	if (e.key === "Enter") {
+		e.preventDefault();
+		var url = document.getElementById("url-input").value;
+		url = url.replace(/https?:\/\//, "");
+		https_url = "https://" + url;
+		if (isValidUrl(https_url)) {
+			document.querySelector(".webview.active-tab").loadURL(https_url);
+		} else {
+			document.querySelector(".webview.active-tab").loadURL("https://www.google.com/search?q=" + url);
+		}
+		document.getElementById("url-input").blur();
+	}
+});
+
 var currentTabID = 0;
 
 function createNewTab(url) {
@@ -87,7 +103,7 @@ function createNewTab(url) {
 	document.getElementById("main").appendChild(newtab_view);
 	newtab_view.classList.add("webview");
 	newtab_view.id = "tab" + tabID;
-	newtab_view.setAttribute("src", url ? url : "https://www.google.com");
+	newtab_view.setAttribute("src", url || path.join(__dirname, "pages", "home", "index.html"));
 
 	newtab_handle.addEventListener("click", () => {
 		Array.from(document.getElementsByClassName("tab")).forEach((tab) => {
@@ -100,7 +116,11 @@ function createNewTab(url) {
 		});
 		newtab_view.classList.add("active-tab");
 
-		document.getElementById("url-input").value = newtab_view.getURL();
+		if (newtab_view.getURL() == "file:///" + path.join(__dirname, "pages", "settings", "index.html").replace(/\\/g, "/")) {
+			document.getElementById("url-input").value = "browser://settings";
+		} else {
+			document.getElementById("url-input").value = newtab_view.getURL();
+		}
 
 		if (newtab_view.isLoading()) {
 			document.getElementById("reload-button").innerHTML = `
@@ -128,7 +148,14 @@ function createNewTab(url) {
 
 	newtab_view.addEventListener("did-frame-navigate", () => {
 		document.getElementById("tab" + tabID + "-title").innerText = newtab_view.getTitle();
-		document.getElementById("url-input").value = newtab_view.getURL();
+
+		if (newtab_view.getURL() == "file:///" + path.join(__dirname, "pages", "settings", "index.html").replace(/\\/g, "/")) {
+			document.getElementById("url-input").value = "browser://settings";
+		} else if (newtab_view.getURL() == "file:///" + path.join(__dirname, "pages", "home", "index.html").replace(/\\/g, "/")) {
+			document.getElementById("url-input").value = "";
+		} else {
+			document.getElementById("url-input").value = newtab_view.getURL();
+		}
 	});
 	newtab_view.addEventListener("did-frame-finish-load", () => {
 		document.getElementById("tab" + tabID + "-title").innerText = newtab_view.getTitle();
@@ -162,21 +189,6 @@ function createNewTab(url) {
 		checkFavicon(e.favicons[0], document.getElementById("favicon" + tabID));
 	});
 
-	document.getElementById("url-input").addEventListener("keypress", (e) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-			var url = document.getElementById("url-input").value;
-			url = url.replace(/https?:\/\//, "");
-			https_url = "https://" + url;
-			if (isValidUrl(https_url)) {
-				document.querySelector(".webview.active-tab").loadURL(https_url);
-			} else {
-				document.querySelector(".webview.active-tab").loadURL("https://www.google.com/search?q=" + url);
-			}
-			document.getElementById("url-input").blur();
-		}
-	});
-
 	document.getElementById("tabclose" + tabID).addEventListener("click", () => {
 		document.getElementById("tab" + tabID).remove();
 		ipcRenderer.send("tab-close");
@@ -188,18 +200,11 @@ function createNewTab(url) {
 		createNewTab(event.url);
 	});
 
-	document.addEventListener(
-		"mouseup",
-		function (event) {
-			console.log("mouse button clicked: ", event.which);
-		},
-		false
-	);
-
 	currentTabID++;
 }
 
 createNewTab();
+
 document.getElementById("newtab-button").addEventListener("click", () => {
 	createNewTab();
 });

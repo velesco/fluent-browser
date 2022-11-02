@@ -1,0 +1,154 @@
+@media (prefers-color-scheme: dark) {
+	* {
+		--color: #ffffff;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	* {
+		--color: #000000;
+	}
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	user-select: none;
+}
+
+*::-webkit-scrollbar,
+.webview::-webkit-scrollbar {
+	width: 15px;
+	height: 15px;
+}
+*::-webkit-scrollbar-track,
+.webview::-webkit-scrollbar-track {
+	background: #0000;
+}
+*::-webkit-scrollbar-thumb,
+.webview::-webkit-scrollbar-thumb {
+	background-color: #888888;
+	border-radius: 10px;
+	width: 10px;
+	border: solid 5px transparent;
+	background-clip: content-box;
+}
+
+body,
+button,
+input {
+	font-family: "Segoe UI", sans-serif;
+	color: var(--color);
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	margin: 0px;
+}
+
+button.shortcut {
+	background: none;
+	width: 64px;
+	height: 64px;
+	margin: 10px;
+	border: none;
+	border-radius: 999999px;
+	transition: all 0.2s;
+	outline: none;
+	background: #88888822;
+}
+button.shortcut:hover {
+	background: #88888833;
+}
+button.shortcut:active {
+	background: #88888844;
+}
+button.shortcut:disabled {
+	background: none;
+	opacity: 0.3;
+}
+button.shortcut.empty {
+	pointer-events: none;
+	opacity: 0;
+}
+
+.url {
+	border-radius: 5px;
+	transition: border 0.3s;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: fit-content;
+}
+.url-bar {
+	width: 30vw;
+	max-width: 800px;
+	background: none;
+	outline: none;
+	border: none;
+	margin: 5px 15px;
+	padding: 10px 20px;
+	border-radius: 999999px;
+	user-select: all;
+	background: #88888833;
+}
+.url button {
+	background: none;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	background: none;
+	width: 32px;
+	height: 32px;
+	margin: 3px;
+	border-radius: 5px;
+	transition: all 0.2s;
+	outline: none;
+	position: relative;
+	left: -50px;
+	width: 0;
+}
+.url-bar:placeholder-shown ~ button,
+.url:not(.url:focus-within) > button {
+	opacity: 0;
+	pointer-events: none;
+}
+
+#suggestion-container {
+	height: 0px;
+}
+#suggestions {
+	width: 30vw;
+	max-width: 800px;
+	background: none;
+	outline: none;
+	border: none;
+	margin: 5px 15px;
+	border-radius: 20px;
+	user-select: all;
+	background: #88888877;
+	backdrop-filter: blur(20px);
+	overflow: hidden scroll;
+	position: relative;
+	max-height: calc(100vh / 2);
+}
+#suggestions:has(#suggestions > div) {
+	display: none;
+}
+.suggestion-li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 10px 20px;
+	width: calc(30vw - 40px);
+	max-width: 7700px;
+}
+.suggestion-li:hover {
+	background-color: #88888822;
+}
