@@ -144,7 +144,7 @@ button.shortcut.empty {
 	transition: all 0.2s;
 }
 form:has(input[type="text"]:placeholder-shown) ~ #suggestion-container,
-form:not(:has(input[type="text"]:focus)) ~ #suggestion-container {
+#suggestion-container:focus-within:has(form:not(:has(input[type="text"]:focus)) ~ #suggestion-container) {
 	opacity: 0;
 	transform: scaleY(0);
 	transform-origin: top center;
@@ -154,7 +154,7 @@ form:not(:has(input[type="text"]:focus)) ~ #suggestion-container {
 	text-overflow: ellipsis;
 	padding: 10px 20px;
 	width: calc(30vw - 40px);
-	max-width: 7700px;
+	max-width: 770px;
 }
 .suggestion-li:hover {
 	background-color: #88888822;

@@ -1,5 +1,3 @@
-var googleSuggestions = [];
-
 async function getSuggestions(text) {
 	var suggestions = await (await fetch("https://google.com/complete/search?output=toolbar&q=" + text)).text();
 	var json_sugg = $.xml2json(suggestions);

@@ -99,13 +99,18 @@
 				<button class="control-buttons" id="reload-button">
 					<i class="fa-regular fa-rotate-right"></i>
 				</button>
-				<form class="url">
-					<input id="url-input" class="url-bar" type="text" onclick="this.select();" placeholder="Enter search or web address..." />
-					<button type="submit" disabled style="display: none"></button>
-					<button type="reset">
-						<i class="fa-regular fa-xmark"></i>
-					</button>
-				</form>
+				<div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; width: -webkit-fill-available">
+					<form class="url">
+						<input id="url-input" class="url-bar" type="text" onclick="this.select();" placeholder="Enter search or web address..." />
+						<button type="submit" disabled style="display: none"></button>
+						<button type="reset">
+							<i class="fa-regular fa-xmark"></i>
+						</button>
+					</form>
+					<div id="suggestion-container">
+						<div id="suggestions"></div>
+					</div>
+				</div>
 				<button class="control-buttons" id="menu-button">
 					<i class="fa-regular fa-list-ul"></i>
 				</button>
@@ -116,6 +121,8 @@
 			<!-- WEBVIEWS GO HERE -->
 		</div>
 
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript" language="javascript"></script>
+		<script src="https://xml-to-json.fyneworks.com/jquery.xml2json.js" type="text/javascript" language="javascript"></script>
 		<script src="./renderer.js"></script>
 	</body>
 </html>

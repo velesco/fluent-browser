@@ -301,3 +301,39 @@ body {
 	opacity: 0;
 	pointer-events: none;
 }
+
+#suggestion-container {
+	height: 0px;
+	width: -webkit-fill-available;
+}
+#suggestions {
+	background: none;
+	outline: none;
+	border: none;
+	margin: 5px;
+	border-radius: 10px;
+	user-select: all;
+	background: #88888877;
+	backdrop-filter: blur(20px);
+	overflow: hidden scroll;
+	position: relative;
+	max-height: calc(100vh / 2);
+	transition: all 0.2s;
+}
+#suggestion-container {
+	transition: all 0.2s;
+}
+form:has(input[type="text"]:placeholder-shown) ~ #suggestion-container,
+form:not(:has(input[type="text"]:focus)) ~ #suggestion-container:not(:has(div:active)) {
+	opacity: 0;
+	transform: scaleY(0);
+	transform-origin: top center;
+}
+.suggestion-li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 10px 20px;
+}
+.suggestion-li:hover {
+	background-color: #88888822;
+}
