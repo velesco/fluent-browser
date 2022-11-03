@@ -1,3 +1,9 @@
+// checks if the app is being run as an installer
+const setupEvents = require("./installers/setupEvents");
+if (setupEvents.handleSquirrelEvent()) {
+	return;
+}
+
 const { app, ipcMain, globalShortcut } = require("electron");
 const { PARAMS, VALUE, MicaBrowserWindow } = require("mica-electron");
 const contextMenu = require("electron-context-menu");
