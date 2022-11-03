@@ -15,7 +15,7 @@ app.on("ready", () => {
 	const win = new MicaBrowserWindow({
 		width: 1200,
 		height: 800,
-		effect: PARAMS.BACKGROUND.TABBED_MICA,
+		effect: PARAMS.BACKGROUND.AUTO,
 		theme: VALUE.THEME.AUTO,
 		autoHideMenuBar: true,
 		frame: false,
