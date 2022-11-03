@@ -1,7 +1,9 @@
 <h1 align="center">
 Fluent Browser
 <br>
-<sup><sup><sub>Name pending</sub></sup></sup>
+<sub>
+<img src="https://raw.githubusercontent.com/ThePiGuy3141/fluent-browser/master/src/icons/png/64x64.png">
+</sub>
 </h3>
 <br>
 <p align="center">
