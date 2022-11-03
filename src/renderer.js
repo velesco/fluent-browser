@@ -118,6 +118,8 @@ function createNewTab(url) {
 
 		if (newtab_view.getURL() == "file:///" + path.join(__dirname, "pages", "settings", "index.html").replace(/\\/g, "/")) {
 			document.getElementById("url-input").value = "browser://settings";
+		} else if (newtab_view.getURL() == "file:///" + path.join(__dirname, "pages", "home", "index.html").replace(/\\/g, "/")) {
+			document.getElementById("url-input").value = "";
 		} else {
 			document.getElementById("url-input").value = newtab_view.getURL();
 		}
@@ -240,6 +242,11 @@ document.getElementById("url-input").addEventListener("keyup", (e) => {
 		document.querySelector(".webview.active-tab").loadURL("https://www.google.com/search?q=" + document.getElementById("url-input").value);
 	}
 });
-document.getElementById("url-input").addEventListener("click", (e) => {
+document.getElementById("url-input").addEventListener("click", () => {
 	getSuggestions(document.getElementById("url-input").value);
+});
+
+// home button
+document.getElementById("home-button").addEventListener("click", () => {
+	document.querySelector(".webview.active-tab").loadURL(path.join(__dirname, "pages", "home", "index.html"));
 });

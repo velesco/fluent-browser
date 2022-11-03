@@ -19,7 +19,8 @@ app.on("ready", () => {
 			webviewTag: true
 		},
 		minWidth: 900,
-		minHeight: 640
+		minHeight: 640,
+		icon: path.join(__dirname, "src", "icons", "win", "icon.ico")
 	});
 
 	win.removeMenu();
