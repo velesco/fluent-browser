@@ -24,7 +24,7 @@ Fluent Browser
 <h2>🛠️ How to run</h2>
 <p>Clone repo</p>
 
-```
+```ps
 git clone https://github.com/ThePiGuy3141/electron-mica-browser.git
 cd electron-mica-browser
 ```
@@ -32,13 +32,13 @@ cd electron-mica-browser
 <br>
 <p>Install node modules</p>
 
-```
+```ps
 npm i
 ```
 
 <br>
 <p>Start the app</p>
 
-```
+```ps
 npm start
 ```
