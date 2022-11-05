@@ -4,14 +4,69 @@ if (setupEvents.handleSquirrelEvent()) {
 	return;
 }
 
-const { app, ipcMain, globalShortcut } = require("electron");
+const { app, ipcMain, globalShortcut, session } = require("electron");
 const { PARAMS, VALUE, MicaBrowserWindow } = require("mica-electron");
 const contextMenu = require("electron-context-menu");
 const path = require("path");
+const { promises: fs } = require("fs");
+const { ElectronChromeExtensions } = require("electron-chrome-extensions");
 
 app.commandLine.appendSwitch("enable-transparent-visuals");
 
+const manifestExists = async (dirPath) => {
+	if (!dirPath) return false;
+	const manifestPath = path.join(dirPath, "manifest.json");
+	try {
+		return (await fs.stat(manifestPath)).isFile();
+	} catch {
+		return false;
+	}
+};
+
+async function loadExtensions(session, extensionsPath) {
+	const subDirectories = await fs.readdir(extensionsPath, {
+		withFileTypes: true
+	});
+
+	const extensionDirectories = await Promise.all(
+		subDirectories
+			.filter((dirEnt) => dirEnt.isDirectory())
+			.map(async (dirEnt) => {
+				const extPath = path.join(extensionsPath, dirEnt.name);
+
+				if (await manifestExists(extPath)) {
+					return extPath;
+				}
+
+				const extSubDirs = await fs.readdir(extPath, {
+					withFileTypes: true
+				});
+
+				const versionDirPath = extSubDirs.length === 1 && extSubDirs[0].isDirectory() ? path.join(extPath, extSubDirs[0].name) : null;
+
+				if (await manifestExists(versionDirPath)) {
+					return versionDirPath;
+				}
+			})
+	);
+
+	const results = [];
+
+	for (const extPath of extensionDirectories.filter(Boolean)) {
+		console.log(`Loading extension from ${extPath}`);
+		try {
+			const extensionInfo = await session.loadExtension(extPath);
+			results.push(extensionInfo);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	return results;
+}
+
 app.on("ready", () => {
+	const extensions = new ElectronChromeExtensions();
 	const win = new MicaBrowserWindow({
 		width: 1200,
 		height: 800,
@@ -29,7 +84,11 @@ app.on("ready", () => {
 		icon: path.join(__dirname, "src", "icons", "win", "icon.ico")
 	});
 
+	extensions.addTab(win.webContents, win);
+
 	win.removeMenu();
+
+	loadExtensions(session.defaultSession, path.join(app.getPath("userData"), "Extensions"));
 
 	// win.webContents.openDevTools();
 
