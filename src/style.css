@@ -64,6 +64,11 @@ body {
 	overflow-y: hidden;
 }
 
+browser-action-list {
+	margin: 0px 2px 0px 5px;
+	transform: scale(0.9);
+}
+
 #titlebar {
 	display: block;
 	/* position: fixed; */

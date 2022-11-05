@@ -82,7 +82,8 @@ app.on("ready", () => {
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
-			webviewTag: true
+			webviewTag: true,
+			preload: path.join(__dirname, "src", "preload.js")
 		},
 		minWidth: 900,
 		minHeight: 640,
