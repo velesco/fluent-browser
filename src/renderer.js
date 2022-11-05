@@ -1,5 +1,12 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, remote } = require("electron");
 const path = require("path");
+
+var willClose = false;
+window.onbeforeunload = () => {
+	if (!willClose) {
+		return false;
+	}
+};
 
 document.getElementById("min-button").addEventListener("click", () => {
 	ipcRenderer.send("minimize");
@@ -11,6 +18,7 @@ document.getElementById("restore-button").addEventListener("click", () => {
 	ipcRenderer.send("restore");
 });
 document.getElementById("close-button").addEventListener("click", () => {
+	willClose = true;
 	ipcRenderer.send("close");
 });
 

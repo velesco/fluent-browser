@@ -11,6 +11,9 @@ const path = require("path");
 const { promises: fs } = require("fs");
 const fs2 = require("fs");
 const { ElectronChromeExtensions } = require("electron-chrome-extensions");
+const Store = require("electron-store");
+
+const store = new Store();
 
 app.commandLine.appendSwitch("enable-transparent-visuals");
 
@@ -71,10 +74,17 @@ async function loadExtensions(session, extensionsPath) {
 }
 
 app.on("ready", () => {
-	const extensions = new ElectronChromeExtensions();
+	const extensions = new ElectronChromeExtensions({
+		createTab: (details) => {
+			win.webContents.executeJavaScript(`createNewTab('${details.url}')`);
+		}
+	});
+
 	const win = new MicaBrowserWindow({
-		width: 1200,
-		height: 800,
+		width: store.get("window.width") || 1200,
+		height: store.get("window.height") || 800,
+		x: store.get("window.x") || 100,
+		y: store.get("window.y") || 100,
 		effect: PARAMS.BACKGROUND.AUTO,
 		theme: VALUE.THEME.AUTO,
 		autoHideMenuBar: true,
@@ -99,6 +109,13 @@ app.on("ready", () => {
 	// win.webContents.openDevTools();
 
 	win.loadFile(path.join(__dirname, "src", "index.html"));
+
+	win.on("close", () => {
+		store.set("window.width", win.getSize()[0]);
+		store.set("window.height", win.getSize()[1]);
+		store.set("window.x", win.getPosition()[0]);
+		store.set("window.y", win.getPosition()[1]);
+	});
 
 	win.webContents.once("dom-ready", () => {
 		win.show();
