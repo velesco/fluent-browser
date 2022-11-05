@@ -158,6 +158,34 @@ function createNewTab(url) {
 		} else {
 			document.getElementById("url-input").value = newtab_view.getURL();
 		}
+
+		newtab_view.insertCSS(`
+		* {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			vertical-align: baseline;
+			user-select: none;
+		}
+		
+		*::-webkit-scrollbar,
+		.webview::-webkit-scrollbar {
+			width: 15px;
+			height: 15px;
+		}
+		*::-webkit-scrollbar-track,
+		.webview::-webkit-scrollbar-track {
+			background: #0000;
+		}
+		*::-webkit-scrollbar-thumb,
+		.webview::-webkit-scrollbar-thumb {
+			background-color: #888888;
+			border-radius: 10px;
+			width: 10px;
+			border: solid 5px transparent;
+			background-clip: content-box;
+		}
+		`);
 	});
 	newtab_view.addEventListener("did-frame-finish-load", () => {
 		document.getElementById("tab" + tabID + "-title").innerText = newtab_view.getTitle();
