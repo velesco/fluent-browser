@@ -9,9 +9,14 @@ const { PARAMS, VALUE, MicaBrowserWindow } = require("mica-electron");
 const contextMenu = require("electron-context-menu");
 const path = require("path");
 const { promises: fs } = require("fs");
+const fs2 = require("fs");
 const { ElectronChromeExtensions } = require("electron-chrome-extensions");
 
 app.commandLine.appendSwitch("enable-transparent-visuals");
+
+if (!fs2.existsSync(path.join(app.getPath("userData"), "Extensions"))) {
+	fs2.mkdirSync(path.join(app.getPath("userData"), "Extensions"));
+}
 
 const manifestExists = async (dirPath) => {
 	if (!dirPath) return false;
