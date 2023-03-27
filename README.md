@@ -16,8 +16,8 @@ Fluent Browser
 <h2>🖼️ Screenshot</h2>
 <p>Change your GitHub theme to see the screenshot theme change</p>
 
-![](https://raw.githubusercontent.com/ItsPi3141/electron-mica-browser/master/screenshots/light_google.png#gh-light-mode-only)
-![](https://raw.githubusercontent.com/ItsPi3141/electron-mica-browser/master/screenshots/dark_google.png#gh-dark-mode-only)
+![](https://raw.githubusercontent.com/ItsPi3141/fluent-browser/master/screenshots/light_google.png#gh-light-mode-only)
+![](https://raw.githubusercontent.com/ItsPi3141/fluent-browser/master/screenshots/dark_google.png#gh-dark-mode-only)
 
 <br>
 <hr>
@@ -25,7 +25,7 @@ Fluent Browser
 <p>Clone repo</p>
 
 ```ps
-git clone https://github.com/ItsPi3141/electron-mica-browser.git
+git clone https://github.com/ItsPi3141/fluent-browser.git
 cd electron-mica-browser
 ```
 
